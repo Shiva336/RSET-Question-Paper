@@ -1,0 +1,10 @@
+.divcard {
+  transition: all 0.3s ease-out;
+}
+
+.divcard:hover {
+  cursor: pointer;
+  background-color: rgb(255, 255, 255);
+  color: rgb(15, 0, 114);
+  transform: scale(0.9);
+}
