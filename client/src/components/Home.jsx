@@ -4,34 +4,12 @@ import { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 // import { useNavigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
-function SearchSuggestions({ suggestions, onSuggestionClick }) {
-  if (suggestions.length === 0) return null;
-
-  return (
-    <div className='search-focus'>
-      <ul className='search-suggestions'>
-        {suggestions.map((suggestion) => (
-          <li
-            className='searchlist'
-            key={suggestion._id}
-            onClick={() => onSuggestionClick(suggestion._id)}
-          >
-            {suggestion.name}
-            {suggestion.featured && (
-              <span className='featured-suggestion'>Featured</span>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
+import SearchSuggestions from './SearchSuggestions';
 function Home() {
   const [searchText, setSearchText] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [showLoginAsAdmin, setShowLoginAsAdmin] = useState(false);
+  const [searchInitiated, setSearchInitiated] = useState(false);
   const navigate = useNavigate();
 
   const handleSearchChange = (event) => {
@@ -52,21 +30,52 @@ function Home() {
   const handleLoginAsAdminClick = () => {
     navigate('/login');
   };
+  const handleSearchButtonClick = () => {
+    setSearchInitiated(true);
+    // Implement your logic to fetch and display search results here
+    // You can update the 'suggestions' state with the search results
+  };
+
   return (
     <div className='bg-primary-color min-h-screen flex flex-col items-center justify-center'>
-      {/* Search Bar */}
-      <div className='flex items-center space-x-4 mb-8'>
-        <div className='flex items-center bg-white rounded-full px-4 py-2 focus:outline-none focus:ring focus:border-blue-300'>
-          <input
-            type='text'
-            placeholder='Search...'
-            value={searchText}
-            onChange={handleSearchChange}
-            className='searchInput w-full focus:outline-none text-xl'
-          />
-          <FaSearch className='text-gray-500' />
+      {searchInitiated ? (
+        // Display search bar at the top
+        <div className='flex items-center space-x-4 mb-8 fixed top-0 left-0 right-0 bg-white p-4 z-10'>
+          <div className='flex items-center bg-white rounded-full px-4 py-2 focus:outline-none focus:ring focus:border-blue-300'>
+            <input
+              type='text'
+              placeholder='Search...'
+              value={searchText}
+              onChange={handleSearchChange}
+              className='searchInput w-full focus:outline-none text-xl'
+            />
+            <FaSearch className='text-gray-500' />
+          </div>
+          <button
+            className='ml-4 bg-blue-500 text-white px-2 py-1 rounded-md'
+            onClick={() => setSearchInitiated(false)}
+          >
+            Close
+          </button>
         </div>
-      </div>
+      ) : (
+        // Display search bar in the center
+        <div className='flex items-center space-x-4 mb-8'>
+          <div className='flex items-center -mr-3 bg-white rounded-full px-4 py-2 focus:outline-none focus:ring focus:border-blue-300'>
+            <input
+              type='text'
+              placeholder='Search...'
+              value={searchText}
+              onChange={handleSearchChange}
+              className='searchInput w-full focus:outline-none text-xl'
+            />
+            <FaSearch
+              className='text-gray-500 '
+              onClick={handleSearchButtonClick}
+            />
+          </div>
+        </div>
+      )}
 
       <div className='flex items-center absolute top-1 right-2'>
         <button
