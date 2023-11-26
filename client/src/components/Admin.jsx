@@ -8,23 +8,25 @@ const Admin = () => {
   const [subjectName, setSubjectName] = useState('');
   const [year, setYear] = useState('');
   const [branch, setBranch] = useState('Select the branch');
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState("");
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async(e) => {
     e.preventDefault();
 
-    console.log(file.buffer);
+    const formData = new FormData();
 
-    const data = {
-      code: subjectCode,
-      sem: semester,
-      name: subjectName,
-      year: year,
-      branch: branch,
-      pdf: file,
-    };
+    formData.append("code", subjectCode);
+    formData.append("sem", semester);
+    formData.append("name", subjectName);
+    formData.append("year", year);
+    formData.append("branch", branch);
+    formData.append("file", file);
 
-   axios.put("http://localhost:3002/questionpaper/upload",data);
+   const result = axios.put("http://localhost:3002/questionpaper/upload",formData, {
+    headers: { "Content-Type": "multipart/form-data"},
+   });
+
+   console.log(result);
 
   };
 
@@ -136,7 +138,7 @@ const Admin = () => {
             <input
               id='file'
               type='file' 
-              accept='.pdf'
+              accept='application/pdf'
               onChange={(e) => setFile(e.target.files[0])}
               className='block w-full rounded-md border border-gray-300 py-2 text-white placeholder-gray-400 focus:ring focus:ring-indigo-600 focus:ring-opacity-50 focus:outline-none'
             />

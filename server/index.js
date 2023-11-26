@@ -13,6 +13,7 @@ mongoose.connection.once("open", ()=> {
 //middlewares
 app.use(cors());
 app.use(express.json());
+app.use("/files", express.static("files"));
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
