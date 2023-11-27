@@ -1,15 +1,124 @@
-import React from 'react';
-import Navbar from './Navbar';
+// import Navbar from './Navbar';
 import '../styles/home.css';
+import { useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
+// import { useNavigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
 function Home() {
-  let navigate = useNavigate();
-  const numbers = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8'];
+  const [searchText, setSearchText] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [showLoginAsAdmin, setShowLoginAsAdmin] = useState(false);
+  const [searchInitiated, setSearchInitiated] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSearchChange = (event) => {
+    setSearchText(event.target.value);
+  };
+
+  let filteredSuggestions = [];
+  if (searchText.length > 0)
+    filteredSuggestions = suggestions.filter((suggestion) =>
+      suggestion.name.toLowerCase().startsWith(searchText.toLowerCase())
+    );
+
+  const searchListClick = (param) => {
+    // Handle when a suggestion is clicked
+    // You can navigate or perform other actions here
+  };
+
+  const handleUserIconClick = () => {
+    setShowLoginAsAdmin(!showLoginAsAdmin);
+  };
+
+  const openPDF = () => {
+    const pdfPath = '/path-to-pdf.pdf';
+
+    window.open(pdfPath, '_blank');
+  };
+  const handleLoginAsAdminClick = () => {
+    navigate('/login');
+  };
+  const handleSearchButtonClick = () => {
+    setSearchInitiated(true);
+    // Implement your logic to fetch and display search results here
+    // You can update the 'suggestions' state with the search results
+  };
 
   return (
-    <div className='bg-primary-color min-h-screen'>
-      <div className='nav-bar'>
+    <div className='bg-primary-color min-h-screen flex flex-col items-center justify-center'>
+      {searchInitiated ? (
+        // Display search bar at the top
+        <div className='flex items-center space-x-4 mb-8 fixed top-0 left-0 right-0 bg-white p-4 z-10'>
+          <div className='flex items-center bg-white rounded-full px-4 py-2 focus:outline-none focus:ring focus:border-blue-300'>
+            <input
+              type='text'
+              placeholder='Search...'
+              value={searchText}
+              onChange={handleSearchChange}
+              className='searchInput w-full focus:outline-none text-xl'
+            />
+            <FaSearch className='text-gray-500' />
+          </div>
+          <button
+            className='ml-4 bg-blue-500 text-white px-2 py-1 rounded-md'
+            onClick={() => setSearchInitiated(false)}
+          >
+            Close
+          </button>
+        </div>
+      ) : (
+        // Display search bar in the center
+        <div className='flex items-center space-x-4 mb-8'>
+          <div className='flex items-center -mr-3 bg-white rounded-full px-4 py-2 focus:outline-none focus:ring focus:border-blue-300'>
+            <input
+              type='text'
+              placeholder='Search...'
+              value={searchText}
+              onChange={handleSearchChange}
+              className='searchInput w-full focus:outline-none text-xl'
+            />
+            <FaSearch
+              className='text-gray-500 '
+              onClick={handleSearchButtonClick}
+            />
+          </div>
+        </div>
+      )}
+
+      <div className='flex items-center absolute top-1 right-2'>
+        <button
+          className='bg-blue-500 text-white px-2 py-1 mt-2 rounded-md'
+          onClick={handleLoginAsAdminClick}
+        >
+          Login as Admin
+        </button>
+      </div>
+
+      {searchText.length > 0 && filteredSuggestions.length > 0 && (
+        <div className='search-focus'>
+          <ul className='search-suggestions'>
+            {filteredSuggestions.map((suggestion, index) => (
+              <li
+                className='searchlist'
+                key={index}
+                onClick={openPDF(suggestion)}
+              >
+                {suggestion.name}
+                {suggestion.featured && (
+                  <span className='featured-suggestion'>Featured</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default Home;
+/*
+<div className='nav-bar'>
         <Navbar />
       </div>
       <br />
@@ -32,8 +141,5 @@ function Home() {
           ))}
         </div>
       </div>
-    </div>
-  );
-}
 
-export default Home;
+    */
