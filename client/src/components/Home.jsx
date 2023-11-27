@@ -14,9 +14,13 @@ function Home() {
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
-    // Fetch and set suggestions based on the searchText
-    // Replace this with your actual suggestion fetching logic
   };
+
+  let filteredSuggestions = [];
+  if (searchText.length > 0)
+    filteredSuggestions = suggestions.filter((suggestion) =>
+      suggestion.name.toLowerCase().startsWith(searchText.toLowerCase())
+    );
 
   const searchListClick = (param) => {
     // Handle when a suggestion is clicked
@@ -27,6 +31,11 @@ function Home() {
     setShowLoginAsAdmin(!showLoginAsAdmin);
   };
 
+  const openPDF = () => {
+    const pdfPath = '/path-to-pdf.pdf';
+
+    window.open(pdfPath, '_blank');
+  };
   const handleLoginAsAdminClick = () => {
     navigate('/login');
   };
@@ -86,10 +95,24 @@ function Home() {
         </button>
       </div>
 
-      <SearchSuggestions
-        suggestions={suggestions}
-        onSuggestionClick={searchListClick}
-      />
+      {searchText.length > 0 && filteredSuggestions.length > 0 && (
+        <div className='search-focus'>
+          <ul className='search-suggestions'>
+            {filteredSuggestions.map((suggestion, index) => (
+              <li
+                className='searchlist'
+                key={index}
+                onClick={openPDF(suggestion)}
+              >
+                {suggestion.name}
+                {suggestion.featured && (
+                  <span className='featured-suggestion'>Featured</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
