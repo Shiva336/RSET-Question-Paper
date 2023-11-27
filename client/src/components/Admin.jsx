@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import axios from "axios"
 import '../styles/admin.css';
 
 const Admin = () => {
@@ -8,23 +8,26 @@ const Admin = () => {
   const [subjectName, setSubjectName] = useState('');
   const [year, setYear] = useState('');
   const [branch, setBranch] = useState('Select the branch');
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState("");
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async(e) => {
     e.preventDefault();
 
-    console.log(file.buffer);
+    const formData = new FormData();
 
-    const data = {
-      code: subjectCode,
-      sem: semester,
-      name: subjectName,
-      year: year,
-      branch: branch,
-      pdf: file,
-    };
+    formData.append("code", subjectCode);
+    formData.append("sem", semester);
+    formData.append("name", subjectName);
+    formData.append("year", year);
+    formData.append("branch", branch);
+    formData.append("file", file);
 
-    axios.put('http://localhost:3002/questionpaper/upload', data);
+   const result = await axios.put("http://localhost:3002/questionpaper/upload",formData, {
+    headers: { "Content-Type": "multipart/form-data"},
+   });
+
+   console.log(result);
+
   };
 
   return (
@@ -37,11 +40,7 @@ const Admin = () => {
         </div>
         <br />
 
-        <form
-          className='space-y-4'
-          encType='multipart/form-data'
-          onSubmit={handleFormSubmit}
-        >
+        <form className='space-y-4' encType="multipart/form-data" onSubmit={handleFormSubmit}>
           <div>
             <label
               htmlFor='subjectCode'
@@ -138,8 +137,8 @@ const Admin = () => {
             </label>
             <input
               id='file'
-              type='file'
-              accept='.pdf'
+              type='file' 
+              accept='application/pdf'
               onChange={(e) => setFile(e.target.files[0])}
               className='block w-full rounded-md border border-gray-300 py-2 text-white placeholder-gray-400 focus:ring focus:ring-indigo-600 focus:ring-opacity-50 focus:outline-none'
             />
