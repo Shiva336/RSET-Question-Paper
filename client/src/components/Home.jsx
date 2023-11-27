@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 // import { useNavigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import SearchSuggestions from './SearchSuggestions';
 function Home() {
   const [searchText, setSearchText] = useState('');
   const [suggestions, setSuggestions] = useState([]);
