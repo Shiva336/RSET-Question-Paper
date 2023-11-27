@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage })
 
-
+//upload question papers
 router.put("/upload", upload.single('file'), async (req,res)=> {
     console.log(req.file.buffer);
 
@@ -27,6 +27,17 @@ router.put("/upload", upload.single('file'), async (req,res)=> {
     });
 
      newPaper.save();
+});
+
+//get all question papers
+router.get("/", async(req,res)=> {
+  try{
+    const papers =  await questionpaperModel.find({});  
+    res.status(200).json(papers);
+  }
+  catch(err) {
+    return res.status(500).json(err);
+  }
 });
 
 module.exports = router;
