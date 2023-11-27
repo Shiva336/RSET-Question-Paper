@@ -2,6 +2,25 @@ import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 
 function SearchSuggestions({ suggestions, onSuggestionClick }) {
+
+  const [searchText, setSearchText] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const handleSearchChange = (event) => {
+    setSearchText(event.target.value);
+  };
+
+  seEffect(() => {
+    axios.get("http://localhost:3002/product").then((response) => {
+      setSuggestions(response.data);
+    });
+  }, []);
+
+  let filteredSuggestions = [];
+  if (searchText.length > 0)
+    filteredSuggestions = suggestions.filter((suggestion) =>
+      suggestion.name.toLowerCase().startsWith(searchText.toLowerCase())
+    );
+
   if (suggestions.length === 0) return null;
 
   return (
