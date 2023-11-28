@@ -1,7 +1,9 @@
 // import Navbar from './Navbar';
 import '../styles/home.css';
 import { useState } from 'react';
+import { useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
+import axios from "axios"
 // import { useNavigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 function Home() {
@@ -14,6 +16,12 @@ function Home() {
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
   };
+
+  useEffect(() => {
+    axios.get("http://localhost:3002/questionpaper").then((response) => {
+      setSuggestions(response.data);
+    });
+  }, []);
 
   let filteredSuggestions = [];
   if (searchText.length > 0)

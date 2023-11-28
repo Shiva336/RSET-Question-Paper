@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 
 function SearchSuggestions({ suggestions, onSuggestionClick }) {
+
+  let filteredSuggestions = [];
+  if (searchText.length > 0)
+    filteredSuggestions = suggestions.filter((suggestion) =>
+      suggestion.name.toLowerCase().startsWith(searchText.toLowerCase())
+    );
+
   if (suggestions.length === 0) return null;
 
   return (
