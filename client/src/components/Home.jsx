@@ -3,7 +3,7 @@ import '../styles/home.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import axios from "axios"
+import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 function Home() {
@@ -11,23 +11,34 @@ function Home() {
   const [suggestions, setSuggestions] = useState([]);
   const [showLoginAsAdmin, setShowLoginAsAdmin] = useState(false);
   const [searchInitiated, setSearchInitiated] = useState(false);
+  const [searchFound, setSearchFound] = useState(false);
   const navigate = useNavigate();
 
+  let temp = [];
+
   const handleSearchChange = (event) => {
+    setSuggestions(temp);
     setSearchText(event.target.value);
+
+    setSearchFound(false);
+    if (!searchFound) {
+      axios.get('http://localhost:3002/questionpaper').then((response) => {
+        var k = 0;
+        for (var i = 0; i < response.data.length; i++) {
+          if (
+            response.data[i].subject_name
+              .toLowerCase()
+              .startsWith(event.target.value.toLowerCase())
+          ) {
+            console.log(searchText);
+            temp[k++] = response.data[i].subject_name;
+          }
+        }
+        setSuggestions(temp);
+        setSearchFound(true);
+      });
+    }
   };
-
-  useEffect(() => {
-    axios.get("http://localhost:3002/questionpaper").then((response) => {
-      setSuggestions(response.data);
-    });
-  }, []);
-
-  let filteredSuggestions = [];
-  if (searchText.length > 0)
-    filteredSuggestions = suggestions.filter((suggestion) =>
-      suggestion.name.toLowerCase().startsWith(searchText.toLowerCase())
-    );
 
   const searchListClick = (param) => {
     // Handle when a suggestion is clicked
@@ -53,7 +64,7 @@ function Home() {
   };
 
   return (
-    <div className='bg-primary-color min-h-screen flex flex-col items-center justify-center'>
+    <div className='bg-black min-h-screen flex flex-col items-center justify-center'>
       {searchInitiated ? (
         // Display search bar at the top
         <div className='flex items-center space-x-4 mb-8 fixed top-0 left-0 right-0 bg-white p-4 z-10'>
@@ -92,7 +103,23 @@ function Home() {
           </div>
         </div>
       )}
-
+      {searchFound && suggestions.length > 0 && (
+        <div className='search-focus'>
+          <ul className='search-suggestions'>
+            {suggestions.map((suggestion, index) => (
+              <li
+                className='searchlist'
+                key={index}
+                onClick={() => {
+                  openPDF(suggestion);
+                }}
+              >
+                {suggestion}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <div className='flex items-center absolute top-1 right-2'>
         <button
           className='bg-blue-500 text-white px-2 py-1 mt-2 rounded-md'
@@ -101,31 +128,32 @@ function Home() {
           Login as Admin
         </button>
       </div>
-
-      {searchText.length > 0 && filteredSuggestions.length > 0 && (
-        <div className='search-focus'>
-          <ul className='search-suggestions'>
-            {filteredSuggestions.map((suggestion, index) => (
-              <li
-                className='searchlist'
-                key={index}
-                onClick={openPDF(suggestion)}
-              >
-                {suggestion.name}
-                {suggestion.featured && (
-                  <span className='featured-suggestion'>Featured</span>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 }
 
 export default Home;
 /*
+
+ {temp.length > 0 && (
+        <div className='search-focus'>
+          <ul className='search-suggestions'>
+            {temp.map((suggestion, index) => (
+              <li
+                className='searchlist'
+                key={index}
+                onClick={openPDF(suggestion)}
+              >
+                {suggestion}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+
+    ^^^ above is the search list ^^^
+    
 <div className='nav-bar'>
         <Navbar />
       </div>

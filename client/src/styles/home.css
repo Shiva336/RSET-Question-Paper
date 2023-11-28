@@ -8,3 +8,57 @@
   color: rgb(15, 0, 114);
   transform: scale(0.9);
 }
+
+.search-focus {
+  height: 10vh;
+  width: fit-content;
+  color: white;
+}
+
+.search-suggestions {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  background-color: white;
+  border: 3px solid gold;
+  padding-top: 12px;
+  padding-bottom: 10px;
+  padding-left: 50px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-left: 5px;
+  width: 20vw;
+  color: black;
+}
+.search-focus {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: fit-content;
+  z-index: 999;
+}
+
+li {
+  list-style-type: none;
+  cursor: pointer;
+  font-size: 20px;
+}
+.searchlist {
+  width: fit-content;
+  border-radius: 10px;
+  padding-left: 10px;
+  transition: all 350ms ease-in-out;
+  -webkit-transition: all 350ms ease-in-out;
+  -moz-transition: all 350ms ease-in-out;
+  -ms-transition: all 350ms ease-in-out;
+  -o-transition: all 350ms ease-in-out;
+}
+
+.searchlist:hover {
+  transform: scale(1.2);
+  background-color: orange;
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+}
