@@ -29,6 +29,13 @@ const Admin = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       }
     );
+    
+    setSubjectCode('');
+    setSemester('');
+    setSubjectName('');
+    setYear('');
+    setBranch('Select the branch');
+    setFile('');
 
     if (!result.error) window.alert('File uploaded successfully!');
   };

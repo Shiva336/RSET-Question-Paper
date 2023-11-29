@@ -39,6 +39,7 @@ router.put("/upload", upload.single('file'), async (req,res)=> {
 router.get("/", async(req,res)=> {
   try{
     const papers =  await questionpaperModel.find({});  
+    console.log(papers);
     res.status(200).json(papers);
   }
   catch(err) {
@@ -46,13 +47,5 @@ router.get("/", async(req,res)=> {
   }
 });
 
-//get a question paper
-router.get("/getPaper", async (req, res) => {
-  try {
-    PdfSchema.find({}).then((data) => {
-      res.send({ status: "ok", data: data });
-    });
-  } catch (error) {}
-});
 
 module.exports = router;
