@@ -71,10 +71,6 @@ function Home() {
     // You can update the 'suggestions' state with the search results
   };
 
-  const showPdf = (pdf) => {
-    setPdfFile(`http://localhost:5000/files/${pdf}`)
-  };
-
   return (
     <div className='bg-black min-h-screen flex flex-col items-center justify-center'>
       {searchInitiated ? (
