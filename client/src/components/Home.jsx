@@ -2,26 +2,40 @@
 import '../styles/home.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { pdfjs } from "react-pdf";
 import { FaSearch } from 'react-icons/fa';
 import axios from "axios"
 // import { useNavigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+// import PdfComp from "./PdfComp";
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.js",
+  import.meta.url
+).toString();
+
 function Home() {
   const [searchText, setSearchText] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [showLoginAsAdmin, setShowLoginAsAdmin] = useState(false);
   const [searchInitiated, setSearchInitiated] = useState(false);
   const navigate = useNavigate();
+  const [allImage, setAllImage] = useState(null);
+  const [pdfFile, setPdfFile] = useState(null);
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
   };
 
   useEffect(() => {
-    axios.get("http://localhost:3002/questionpaper").then((response) => {
-      setSuggestions(response.data);
-    });
+    getPdf();
   }, []);
+  const getPdf = async () => {
+    const result = await axios.get("http://localhost:3002/questionpaper/");
+    setAllImage(result.data.data);
+    console.log(allImage);
+
+  };
 
   let filteredSuggestions = [];
   if (searchText.length > 0)
@@ -52,6 +66,10 @@ function Home() {
     // You can update the 'suggestions' state with the search results
   };
 
+  const showPdf = (pdf) => {
+    setPdfFile(`http://localhost:5000/files/${pdf}`)
+  };
+
   return (
     <div className='bg-primary-color min-h-screen flex flex-col items-center justify-center'>
       {searchInitiated ? (
@@ -76,7 +94,7 @@ function Home() {
         </div>
       ) : (
         // Display search bar in the center
-        <div className='flex items-center space-x-4 mb-8'>
+        <div className='flex space-x-4 mb-8'>
           <div className='flex items-center -mr-3 bg-white rounded-full px-4 py-2 focus:outline-none focus:ring focus:border-blue-300'>
             <input
               type='text'
@@ -120,6 +138,8 @@ function Home() {
           </ul>
         </div>
       )}
+
+
     </div>
   );
 }
