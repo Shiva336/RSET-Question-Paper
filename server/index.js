@@ -23,6 +23,9 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 const pdfRouter = require("./routes/questionpaper");
 app.use("/questionpaper",pdfRouter);
 
+const adminRouter = require("./routes/auth");
+app.use("/auth",adminRouter);
+
 app.listen("3002",()=> {
     
 });
