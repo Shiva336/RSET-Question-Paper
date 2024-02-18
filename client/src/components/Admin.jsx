@@ -67,6 +67,7 @@ const Admin = () => {
               type='text'
               value={subjectCode}
               onChange={(e) => setSubjectCode(e.target.value)}
+              required
               className='block w-full rounded-md border border-gray-300 py-2 text-gray-900 placeholder-gray-400 focus:ring focus:ring-indigo-600 focus:ring-opacity-50 focus:outline-none'
             />
           </div>
@@ -83,6 +84,7 @@ const Admin = () => {
               value={semester}
               min='1'
               max='8'
+              required
               onChange={(e) => setSemester(e.target.value)}
               className='block w-full rounded-md border border-gray-300 py-2 text-gray-900 placeholder-gray-400 focus:ring focus:ring-indigo-600 focus:ring-opacity-50 focus:outline-none'
             />
@@ -98,6 +100,7 @@ const Admin = () => {
               id='subjectName'
               type='text'
               value={subjectName}
+              required
               onChange={(e) => setSubjectName(e.target.value)}
               className='block w-full rounded-md border border-gray-300 py-2 text-gray-900 placeholder-gray-400 focus:ring focus:ring-indigo-600 focus:ring-opacity-50 focus:outline-none'
             />
@@ -118,6 +121,7 @@ const Admin = () => {
               id='year'
               type='text'
               value={year}
+              required
               onChange={(e) => setYear(e.target.value)}
               className='block w-full rounded-md border border-gray-300 py-2 text-gray-900 placeholder-gray-400 focus:ring focus:ring-indigo-600 focus:ring-opacity-50 focus:outline-none'
             />
@@ -135,6 +139,7 @@ const Admin = () => {
             <select
               id='branch'
               value={branch}
+              required
               onChange={(e) => setBranch(e.target.value)}
               className='block w-full rounded-md border border-gray-300 py-2 text-gray-900 placeholder-gray-400 focus:ring focus:ring-indigo-600 focus:ring-opacity-50 focus:outline-none'
             >
@@ -158,6 +163,7 @@ const Admin = () => {
               Upload PDF:
             </label>
             <input
+              required
               id='file'
               type='file'
               accept='application/pdf'
