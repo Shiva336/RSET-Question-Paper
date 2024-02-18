@@ -1,7 +1,7 @@
 // import Navbar from './Navbar';
 import '../styles/home.css';
 import { useState } from 'react';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { pdfjs } from "react-pdf";
 import { FaSearch } from 'react-icons/fa';
 import axios from 'axios';
@@ -17,7 +17,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 function Home() {
   const [searchText, setSearchText] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [showLoginAsAdmin, setShowLoginAsAdmin] = useState(false);
+  // const [showLoginAsAdmin, setShowLoginAsAdmin] = useState(false);
   const [searchInitiated, setSearchInitiated] = useState(false);
   const [searchFound, setSearchFound] = useState(false);
   const navigate = useNavigate();
@@ -48,14 +48,14 @@ function Home() {
     }
   };
 
-  const searchListClick = (param) => {
-    // Handle when a suggestion is clicked
-    // You can navigate or perform other actions here
-  };
+  // const searchListClick = (param) => {
+  //   // Handle when a suggestion is clicked
+  //   // You can navigate or perform other actions here
+  // };
 
-  const handleUserIconClick = () => {
-    setShowLoginAsAdmin(!showLoginAsAdmin);
-  };
+  // const handleUserIconClick = () => {
+  //   setShowLoginAsAdmin(!showLoginAsAdmin);
+  // };
 
   const openPDF = (suggestion) => {
     const pdfPath = `http://localhost:3002/files/${suggestion}.pdf`;
@@ -124,7 +124,7 @@ function Home() {
       ) : (
         // Display search bar in the center
         <div className='flex space-x-4 mb-8'>
-          <div className='flex items-center -mr-3 bg-white rounded-full px-4 py-2 focus:outline-none focus:ring focus:border-blue-300'>
+          <div className='flex items-center -mr-3 bg-white rounded-full px-60 py-2 focus:outline-none focus:ring'>
             <input
               type='text'
               placeholder='Search...'
