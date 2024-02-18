@@ -8,6 +8,8 @@ module.exports = {
         'secondary-color': '#9400FF',
         'tertiary-color': '#E4F1FF',
         'quaternary-color': '#27005D',
+        'customcolor-bg': '#EEEDEB',
+        'customcolor-bg2': '#0F1035',
       },
       textColor: {
         'primary-color': 'black',

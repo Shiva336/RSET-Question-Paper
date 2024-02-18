@@ -2,7 +2,7 @@
 import '../styles/home.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { pdfjs } from "react-pdf";
+import { pdfjs } from 'react-pdf';
 import { FaSearch } from 'react-icons/fa';
 import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
@@ -10,11 +10,27 @@ import { useNavigate } from 'react-router-dom';
 // import PdfComp from "./PdfComp";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.js",
+  'pdfjs-dist/build/pdf.worker.min.js',
   import.meta.url
 ).toString();
 
 function Home() {
+  const [text, setText] = useState('');
+  const fullText = 'Enter the subject name in lowercase letters!';
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setText((prevText) => {
+        if (prevText === fullText) {
+          clearInterval(interval);
+          return fullText;
+        }
+        return fullText.slice(0, prevText.length + 1);
+      });
+    }, 150);
+    return () => clearInterval(interval);
+  }, []);
+
   const [searchText, setSearchText] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [showLoginAsAdmin, setShowLoginAsAdmin] = useState(false);
@@ -25,6 +41,12 @@ function Home() {
   let temp = [];
 
   const handleSearchChange = (event) => {
+    if (event.target.value === '') {
+      setSearchText(event.target.value);
+      setSuggestions('');
+      temp = [];
+      return;
+    }
     setSuggestions(temp);
     setSearchText(event.target.value);
 
@@ -72,19 +94,19 @@ function Home() {
   };
 
   return (
-    <div className='bg-black min-h-screen flex flex-col items-center justify-center'>
+    <div className='bg-customcolor-bg min-h-screen flex flex-col items-center justify-center'>
       {searchInitiated ? (
         // Display search bar at the top
 
         <div className='search-btn-clicked-div'>
-          <div className='searchbar-close flex items-center space-x-4 mb-8 fixed top-0 left-0 right-0 bg-white p-4 z-10'>
+          <div className='searchbar-close flex items-center space-x-4 mb-8 fixed top-0 left-20 right-0 bg-customcolor-bg  p-4 z-10'>
             <div className='flex items-center bg-white rounded-full px-4 py-2 focus:outline-none focus:ring focus:border-blue-300'>
               <input
                 type='text'
                 placeholder='Search...'
                 value={searchText}
                 onChange={handleSearchChange}
-                className='searchInput w-full focus:outline-none text-xl'
+                className='searchInput w-full focus:outline-none text-xl '
               />
               <FaSearch className='text-gray-500' />
             </div>
@@ -96,7 +118,7 @@ function Home() {
             </button>
           </div>{' '}
           {searchFound && suggestions.length > 0 && (
-            <div className='pdfs-container'>
+            <div className='pdfs-container rounded-3xl px-10 py-10'>
               {suggestions.map((suggestion, index) => (
                 <div
                   className='searchlist-names'
@@ -123,24 +145,26 @@ function Home() {
         </div>
       ) : (
         // Display search bar in the center
-        <div className='flex space-x-4 mb-8'>
-          <div className='flex items-center -mr-3 bg-white rounded-full px-4 py-2 focus:outline-none focus:ring focus:border-blue-300'>
+        <div className='flex-column items-center w-300'>
+          <div className='text-black text-3xl pl-4 text-bold'>{text}</div>
+          <div className='flex items-center -mr-3 bg-customcolor-bg2 rounded-full px-4 py-2 focus:outline-none focus:ring focus:border-blue-300'>
             <input
               type='text'
               placeholder='Search...'
               value={searchText}
               onChange={handleSearchChange}
-              className='searchInput w-full focus:outline-none text-xl'
+              className='searchInput w-full focus:outline-none text-white text-xl py-2 px-4 bg-customcolor-bg2' // Adjusted padding and width
             />
             <FaSearch
-              className='text-gray-500 '
+              className='text-white '
               onClick={handleSearchButtonClick}
+              size={50}
             />
           </div>
         </div>
       )}
       {!searchInitiated && searchFound && suggestions.length > 0 && (
-        <div className='search-focus'>
+        <div className='search-focus '>
           <ul className='search-suggestions'>
             {suggestions.map((suggestion, index) => (
               <li

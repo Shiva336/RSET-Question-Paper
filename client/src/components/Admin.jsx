@@ -29,7 +29,7 @@ const Admin = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       }
     );
-    
+
     setSubjectCode('');
     setSemester('');
     setSubjectName('');
@@ -101,6 +101,11 @@ const Admin = () => {
               onChange={(e) => setSubjectName(e.target.value)}
               className='block w-full rounded-md border border-gray-300 py-2 text-gray-900 placeholder-gray-400 focus:ring focus:ring-indigo-600 focus:ring-opacity-50 focus:outline-none'
             />
+            <p className='text-white'>
+              The name should be in small letters, and should be same as that of
+              the PDF file. Eg: If pdf is compiler-lab.pdf, name should be
+              compiler-lab
+            </p>
           </div>
           <div>
             <label
@@ -134,12 +139,15 @@ const Admin = () => {
               className='block w-full rounded-md border border-gray-300 py-2 text-gray-900 placeholder-gray-400 focus:ring focus:ring-indigo-600 focus:ring-opacity-50 focus:outline-none'
             >
               <option value='Select the branch'>Select the branch</option>
+              <option value='AD'>AD</option>
+              <option value='AE'>AE</option>
+              <option value='CE'>CE</option>
+              <option value='CS'>CS</option>
+              <option value='CU'>CU</option>
+              <option value='EC'>EC</option>
+              <option value='EE'>EE</option>
               <option value='IT'>IT</option>
-              <option value='CSE'>CSE</option>
-              <option value='AIDS'>AIDS</option>
               <option value='ME'>ME</option>
-              <option value='EEE'>EEE</option>
-              <option value='ECE'>ECE</option>
             </select>
           </div>
           <div>

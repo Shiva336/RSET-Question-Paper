@@ -21,8 +21,9 @@
   background-color: white;
   border: 3px solid black;
   text-align: left;
+  margin-top: 1vh;
   margin-left: 0.7vw;
-  width: 20vw;
+  width: 36vw;
   color: black;
 }
 .search-focus {
@@ -41,7 +42,8 @@ li {
 .searchlist {
   /* border-radius: 10px; */
   padding-left: 10px;
-  /* transition: all 350ms ease-in-out;
+  transition: all 350ms ease-in-out;
+  /*
   -webkit-transition: all 350ms ease-in-out;
   -moz-transition: all 350ms ease-in-out;
   -ms-transition: all 350ms ease-in-out;
@@ -49,8 +51,9 @@ li {
 }
 
 .searchlist:hover {
-  /* transform: scale(1.2); */
-  background-color: gray;
+  transform: scale(1.2);
+  background-color: black;
+  color: white;
   /* -webkit-transform: scale(1.2);
   -moz-transform: scale(1.2);
   -ms-transform: scale(1.2);
